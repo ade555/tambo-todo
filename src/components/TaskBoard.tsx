@@ -1,6 +1,15 @@
 import TaskGroup from "./TaskGroup";
+import type { Task } from "../types/task";
 
-const PRIORITIES = ["high", "medium", "low"];
+const PRIORITIES = ["high", "medium", "low"] as const;
+
+interface TaskBoardProps {
+  tasks: Task[];
+  onDelete: (id: string) => void;
+  onToggle: (id: string) => void;
+  onOpenModal: () => void;
+  onEdit: (task: Task) => void;
+}
 
 export default function TaskBoard({
   tasks,
@@ -8,11 +17,16 @@ export default function TaskBoard({
   onToggle,
   onOpenModal,
   onEdit,
-}) {
-  const grouped = PRIORITIES.reduce((acc, p) => {
-    acc[p] = tasks.filter((t) => t.priority === p);
-    return acc;
-  }, {});
+}: TaskBoardProps) {
+  const grouped: Record<"high" | "medium" | "low", Task[]> = {
+    high: [],
+    medium: [],
+    low: [],
+  };
+
+  for (const t of tasks) {
+    grouped[t.priority].push(t);
+  }
 
   const total = tasks.length;
   const done = tasks.filter((t) => t.completed).length;

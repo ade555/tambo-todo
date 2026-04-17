@@ -1,4 +1,5 @@
 import TaskCard from "./TaskCard";
+import type { Task } from "../types/task";
 
 const LABELS = {
   high: "High priority",
@@ -6,13 +7,21 @@ const LABELS = {
   low: "Low priority",
 };
 
+interface TaskGroupProps {
+  priority: Task["priority"];
+  tasks: Array<Task>;
+  onDelete: (id: string) => void;
+  onToggle: (id: string) => void;
+  onEdit: (task: Task) => void;
+}
+
 export default function TaskGroup({
   priority,
   tasks,
   onDelete,
   onToggle,
   onEdit,
-}) {
+}: TaskGroupProps) {
   return (
     <div className="group-card">
       <div className="group-header">

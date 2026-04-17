@@ -1,38 +1,64 @@
 import { useState, useEffect } from "react";
+import type { Task, TaskInput } from "../types/task";
 
-export default function TaskModal({ onAdd, onEdit, onClose, editingTask }) {
-  const [text, setText] = useState("");
-  const [priority, setPriority] = useState("high");
+interface TaskModalProps {
+  onAdd: (task: TaskInput) => void;
+  onEdit: (task: Task) => void;
+  onClose: () => void;
+  editingTask?: Task | null;
+}
+
+export default function TaskModal({
+  onAdd,
+  onEdit,
+  onClose,
+  editingTask,
+}: TaskModalProps) {
+  const [title, setTitle] = useState("");
+  const [priority, setPriority] = useState<TaskInput["priority"]>("high");
   const [dueDate, setDueDate] = useState("");
 
   const isEditing = Boolean(editingTask);
 
   useEffect(() => {
     if (editingTask) {
-      setText(editingTask.text);
+      setTitle(editingTask.title);
       setPriority(editingTask.priority);
-      setDueDate(editingTask.dueDate || "");
+      setDueDate(editingTask.dueDate ?? "");
     } else {
-      setText("");
+      setTitle("");
       setPriority("high");
       setDueDate("");
     }
   }, [editingTask]);
 
   const handleSubmit = () => {
-    if (!text.trim()) return;
-    if (isEditing) {
-      onEdit({ ...editingTask, text, priority, dueDate });
+    if (!title.trim()) return;
+
+    if (editingTask) {
+      onEdit({
+        ...editingTask,
+        title,
+        priority,
+        dueDate,
+      });
     } else {
-      onAdd({ text, priority, dueDate });
+      onAdd({
+        title,
+        priority,
+        dueDate,
+      });
     }
+
     onClose();
   };
 
-  const handleKey = (e) => {
+  const handleKey = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") handleSubmit();
     if (e.key === "Escape") onClose();
   };
+
+  const priorities: TaskInput["priority"][] = ["high", "medium", "low"];
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -46,8 +72,8 @@ export default function TaskModal({ onAdd, onEdit, onClose, editingTask }) {
           <input
             type="text"
             placeholder="What needs to be done?"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             onKeyDown={handleKey}
             autoFocus
           />
@@ -56,11 +82,11 @@ export default function TaskModal({ onAdd, onEdit, onClose, editingTask }) {
         <div className="field">
           <label>Priority</label>
           <div className="priority-row">
-            {["high", "medium", "low"].map((p) => (
+            {priorities.map((p) => (
               <button
                 key={p}
-                className={`p-btn ${priority === p ? "active" : ""}`}
                 data-p={p}
+                className={`p-btn ${priority === p ? "active" : ""}`}
                 onClick={() => setPriority(p)}
               >
                 <span className="p-dot" />

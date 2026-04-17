@@ -1,17 +1,37 @@
-function formatDate(d) {
+import type { Task } from "../types/task";
+interface TaskCardProps {
+  task: Task;
+  onDelete: (id: string) => void;
+  onToggle: (id: string) => void;
+  onEdit: (task: Task) => void;
+}
+
+function formatDate(d: string) {
   const [y, m, day] = d.split("-");
-  return new Date(y, m - 1, day).toLocaleDateString("en-US", {
+  return new Date(
+    parseInt(y),
+    parseInt(m) - 1,
+    parseInt(day),
+  ).toLocaleDateString("en-US", {
     month: "short",
     day: "numeric",
   });
 }
 
-function isOverdue(d) {
+function isOverdue(d: string) {
   const [y, m, day] = d.split("-");
-  return new Date(y, m - 1, day) < new Date(new Date().toDateString());
+  return (
+    new Date(parseInt(y), parseInt(m) - 1, parseInt(day)) <
+    new Date(new Date().toDateString())
+  );
 }
 
-export default function TaskCard({ task, onDelete, onToggle, onEdit }) {
+export default function TaskCard({
+  task,
+  onDelete,
+  onToggle,
+  onEdit,
+}: TaskCardProps) {
   const over = task.dueDate && isOverdue(task.dueDate) && !task.completed;
 
   return (
@@ -22,7 +42,7 @@ export default function TaskCard({ task, onDelete, onToggle, onEdit }) {
       <div className="check-box" />
 
       <div className="task-content">
-        <div className="task-text">{task.text}</div>
+        <div className="task-text">{task.title}</div>
         {task.dueDate && (
           <div className="task-meta">
             <span className={`due-chip ${over ? "overdue" : ""}`}>

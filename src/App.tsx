@@ -1,18 +1,19 @@
 import { useState } from "react";
 import TaskBoard from "./components/TaskBoard";
 import TaskModal from "./components/TaskModal";
+import type { Task, TaskInput } from "./types/task";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingTask, setEditingTask] = useState(null);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
   const openAddModal = () => {
     setEditingTask(null);
     setIsModalOpen(true);
   };
 
-  const openEditModal = (task) => {
+  const openEditModal = (task: Task) => {
     setEditingTask(task);
     setIsModalOpen(true);
   };
@@ -22,21 +23,21 @@ function App() {
     setEditingTask(null);
   };
 
-  const addTask = (task) => {
+  const addTask = (task: TaskInput) => {
     setTasks((prev) => [
       ...prev,
-      { ...task, id: Date.now(), completed: false },
+      { ...task, id: String(Date.now()), completed: false },
     ]);
   };
 
-  const editTask = (updated) => {
+  const editTask = (updated: Task) => {
     setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
   };
 
-  const deleteTask = (id) =>
+  const deleteTask = (id: string) =>
     setTasks((prev) => prev.filter((t) => t.id !== id));
 
-  const toggleComplete = (id) =>
+  const toggleComplete = (id: string) =>
     setTasks((prev) =>
       prev.map((t) => (t.id === id ? { ...t, completed: !t.completed } : t)),
     );
