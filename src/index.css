@@ -424,3 +424,140 @@ body {
 .save-btn:hover {
   opacity: 0.75;
 }
+
+/* Productivity card */
+.productivity-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.pc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.pc-range {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #aaa;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.pc-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111;
+}
+
+.pc-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.pc-percent {
+  font-size: 26px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1;
+}
+
+.pc-label {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.pc-bar-track {
+  height: 6px;
+  background: #f0f0f0;
+  border-radius: 99px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.pc-bar-fill {
+  height: 100%;
+  background: #111;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.pc-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.pc-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pc-row-label {
+  font-size: 12px;
+  color: #555;
+  width: 52px;
+}
+
+.pc-row-stat {
+  font-size: 12px;
+  color: #aaa;
+  width: 32px;
+}
+
+.pc-mini-track {
+  flex: 1;
+  height: 4px;
+  background: #f0f0f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.pc-mini-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.pc-insight {
+  background: #f7f7f5;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: #444;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.pc-insight-icon {
+  color: #ef9f27;
+  font-size: 14px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.pc-footer {
+  font-size: 12px;
+  color: #bbb;
+  text-align: right;
+  border-top: 0.5px solid rgba(0, 0, 0, 0.07);
+  padding-top: 12px;
+}
