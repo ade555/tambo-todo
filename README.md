@@ -1,16 +1,77 @@
-# React + Vite
+# Todo App — Tambo Starter Template
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is the starter template for the [Making Your React App Agentic with Tambo](#) tutorial. It is a fully working to-do app, deliberately structured to make the Tambo integration you will do in the tutorial clean and additive — no restructuring required mid-tutorial.
 
-Currently, two official plugins are available:
+## What's in the box
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+A to-do app where users can:
 
-## React Compiler
+- Add tasks with a title, priority level, and optional due date
+- Group tasks by priority (high, medium, low)
+- Mark tasks as complete, edit them, or delete them
+- See overdue tasks flagged automatically
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack
 
-## Expanding the ESLint configuration
+- React 18
+- TypeScript
+- Vite
+- CSS (no framework)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Project structure
+
+```
+src/
+├── App.tsx                  # Thin wrapper — renders TaskBoard
+├── index.css
+├── types/
+│   └── task.ts              # Task and TaskInput types
+└── components/
+    ├── TaskBoard.tsx        # Owns all task state and logic
+    ├── TaskCard.tsx         # Individual task row
+    ├── TaskGroup.tsx        # Priority group container
+    └── TaskModal.tsx        # Add / edit task form
+```
+
+## Getting started
+
+```bash
+npm install
+npm run dev
+```
+
+## Using this template
+
+This repo is the starting point for the [Making Your React App Agentic with Tambo](#) tutorial. Follow the tutorial to add a natural language interface that lets users manage tasks through conversation.
+
+By the end of the tutorial your app will support things like:
+
+- _"Add a high priority task called Fix the login bug due Friday"_
+- _"Mark the carwash as complete"_
+- _"How productive was I this week?"_
+
+You will need a Tambo API key to complete the tutorial. Get one at [tambo.co](https://tambo.co).
+
+## Types
+
+```ts
+export type Task = {
+  id: string;
+  title: string;
+  dueDate?: string;
+  priority: "high" | "medium" | "low";
+  completed: boolean;
+};
+
+export type TaskInput = {
+  title: string;
+  dueDate?: string;
+  priority: "high" | "medium" | "low";
+};
+```
+
+## Notes
+
+- All task state lives in `TaskBoard.tsx`, not `App.tsx`. This is intentional — it means `App.tsx` is already a thin wrapper ready to receive `TamboProvider` without any restructuring.
+- `index.css` includes styles for `ProductivityCard` (the generative component built in the tutorial). The class names are inert until the component is created.
+- Task IDs are strings (`String(Date.now())`). This matches the string ID format Tambo generates and avoids type mismatch bugs.
